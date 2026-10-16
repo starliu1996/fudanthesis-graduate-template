@@ -1,0 +1,62 @@
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+\ProvidesPackage{template-cover}[2026/09/25 Word-sample cover layout]
+\RequirePackage{tikz}
+
+% Coordinates are PDF points measured from the top-left of the A4 professional
+% doctoral cover in attachment 1 of the supplied June 2026 specification.
+\ExplSyntaxOn
+\tl_new:N \l__tc_info_y_tl
+\cs_new_protected:Npn \__tc_text:nnn #1#2#3
+  {\node[anchor=base~west,inner~sep=0pt,outer~sep=0pt]
+      at ([xshift=#1,yshift=-#2]current~page.north~west) {#3};}
+\cs_new_protected:Npn \__tc_center:nnnn #1#2#3#4
+  {\group_begin:\normalfont #1 \fontsize{#2}{31.2bp}\selectfont
+   \__tc_text:nnn{87.6bp}{#3}{\hbox_to_wd:nn{426.35bp}{\hfil #4\hfil}}
+   \group_end:}
+\cs_new_protected:Npn \__tc_spread:nnnnnn #1#2#3#4#5#6
+  {\group_begin:\hbadness=100000\normalfont #3 \fontsize{#4}{31.2bp}\selectfont
+   \__tc_text:nnn{#1}{#2}{\hbox_to_wd:nn{#5}{\tl_map_inline:nn{#6}{##1\hfil}\unskip}}
+   \group_end:}
+\cs_new_protected:Npn \__tc_info_label:nn #1#2
+  {\__tc_text:nnn{#1}{\tl_use:N\l__tc_info_y_tl}{#2}}
+\cs_new_protected:Npn \__tc_info_row:nn #1#2
+  {\tl_set:Nn\l__tc_info_y_tl{#1}\__tc_text:nnn{292.03bp}{\tl_use:N\l__tc_info_y_tl}{#2}}
+\cs_new_protected:Npn \__tc_info:
+  {\group_begin:\normalfont\rmfamily\fontsize{14.04bp}{31.2bp}\selectfont
+   \__tc_info_row:nn{534.55bp}{\l__fdu_info_author_tl}\__tc_info_label:nn{169.37bp}{学\hspace{14.04bp}生\hspace{14.04bp}姓\hspace{14.04bp}名：}
+   \__tc_info_row:nn{565.75bp}{\l__fdu_info_student_id_tl}\__tc_info_label:nn{169.25bp}{学\hspace{70.2bp}号：}
+   \__tc_info_row:nn{596.95bp}{\l__fdu_info_supervisor_tl}\__tc_info_label:nn{169.37bp}{导师姓名、职称：}
+   \__tc_info_row:nn{628.18bp}{\l__fdu_info_major_tl}\__tc_info_label:nn{169.25bp}{学\hspace{14.04bp}科\hspace{14.04bp}专\hspace{14.04bp}业：}
+   \__tc_info_row:nn{659.38bp}{\l__fdu_info_department_tl}\__tc_info_label:nn{167.33bp}{培\hspace{14.64bp}养\hspace{14.52bp}单\hspace{14.52bp}位：}
+   \__tc_info_row:nn{690.58bp}{\l__fdu_info_date_tl}\__tc_info_label:nn{167.45bp}{论\hspace{3.1bp}文\hspace{3.1bp}提\hspace{3.1bp}交\hspace{3.1bp}日\hspace{3.1bp}期：}
+   \group_end:}
+\cs_new_protected:Npn \__tc_degree:
+  {\group_begin:\normalfont\rmfamily\fontsize{22bp}{31.2bp}\selectfont
+   \prop_get:NVN\c__fdu_thesis_type_prop\g__fdu_thesis_type_tl\l__fdu_tmpa_tl
+   \__tc_spread:nnnnnn{201.9bp}{287.81bp}{\normalfont\rmfamily}{22bp}{198bp}{\l__fdu_tmpa_tl}
+   \group_end:}
+\cs_new_protected:Npn \template_cover_i:
+  {\thispagestyle{empty}\tl_set:Nn\thepage{A}
+   \begin{tikzpicture}[remember~picture,overlay]
+    \group_begin:\normalfont\rmfamily\fontsize{9bp}{11bp}\selectfont
+     \__tc_text:nnn{87.6bp}{84.38bp}{\c__fdu_name_clc_tl\c__fdu_fwid_colon_tl\tl_use:N\l__fdu_info_clc_tl}
+     \__tc_text:nnn{408.1bp}{84.38bp}{\c__fdu_name_school_id_tl\c__fdu_fwid_colon_tl\hspace{6.7bp}\tl_use:N\l__fdu_info_school_id_tl}
+     \tl_if_empty:NF\l__fdu_info_applicant_type_tl{\__tc_text:nnn{408.1bp}{118.1bp}{\l__fdu_info_applicant_type_tl}}
+    \group_end:
+    \node[anchor=north~west,inner~sep=0pt,outer~sep=0pt] at ([xshift=182.15bp,yshift=-161.4bp]current~page.north~west)
+      {\includegraphics[width=217.45bp,height=81bp]{assets/spec-cover-logo.png}};
+    \__tc_degree:
+    \tl_if_eq:NnF\g__fdu_thesis_type_tl{bachelor}{\group_begin:\normalfont\rmfamily\bfseries\fontsize{15bp}{31.2bp}\selectfont
+      \prop_get:NVN\c__fdu_degree_type_prop\l__fdu_info_degree_type_tl\l__fdu_tmpa_tl
+          \__tc_spread:nnnnnn{261.0bp}{316.49bp}{\bfseries\rmfamily}{15bp}{90bp}{（\l__fdu_tmpa_tl）}\group_end:}
+    \tl_if_eq:VnTF\l__fdu_info_title_tl{中文论文题目}
+      {\__tc_spread:nnnnnn{241.1bp}{379.97bp}{\bfseries}{18bp}{117.5bp}{\l__fdu_info_title_tl}}
+      {\__tc_center:nnnn{\bfseries}{18bp}{379.97bp}{\l__fdu_info_title_tl}}
+    \tl_if_eq:VnTF\l__fdu_info_title_en_tl{英文论文题目}
+      {\__tc_spread:nnnnnn{253.25bp}{409.73bp}{\bfseries\rmfamily}{14.04bp}{87.9bp}{\l__fdu_info_title_en_tl}}
+      {\__tc_center:nnnn{\bfseries\rmfamily}{14.04bp}{409.73bp}{\l__fdu_info_title_en_tl}}
+    \__tc_info:
+   \end{tikzpicture}}
+\RenewDocumentCommand\makecoveri{}{\template_cover_i:}
+\ExplSyntaxOff
+\endinput

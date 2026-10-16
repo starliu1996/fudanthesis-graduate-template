@@ -1,0 +1,98 @@
+﻿% Fudan University graduate thesis template.
+% Save this file as UTF-8 and compile it with XeLaTeX or LuaLaTeX.
+% The supplied declaration is PDF 1.7; emit a matching version.
+\PassOptionsToPackage{pdfversion=1.7}{hyperref}
+\documentclass[type=doctor,twoside]{fduthesis}
+% Change type=doctor to type=master when preparing a master's thesis.
+
+\fdusetup{
+  style = {
+    font = times*,
+    cjk-font = windows,
+    font-size = -4,
+    footnote-style = xits,
+    hyperlink = none,
+    logo = {assets/spec-cover-logo.png},
+    bib-backend = bibtex,
+    bib-style = numerical,
+    bib-resource = {references.bib},
+    % The class appends this PDF from its end-document hook. It is therefore
+    % always the final page of the compiled thesis PDF.
+    declaration-page = {assets/declaration.pdf},
+    auto-make-cover = true,
+  },
+  info = {
+    title = {中文论文题目},
+    title* = {英文论文题目},
+    author = {学生姓名},
+    supervisor = {导师姓名 \quad 职称},
+    major = {专业名称},
+    degree = professional,
+    department = {培养单位名称},
+    student-id = {学号},
+    date = {年\quad 月\quad 日}, % Replace with the actual submission date.
+    instructors = {
+      {导师姓名 \quad 职称},
+    },
+    keywords = {关键词一, 关键词二, 关键词三},
+    keywords* = {keyword one, keyword two, keyword three},
+    clc = {}, % Fill in the CLC classification code.
+    applicant-type = {}, % 同等学力人员 or 英文项目, only when applicable.
+  }
+}
+
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{threeparttable}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{template-layout}
+\usepackage{template-cover}
+
+% Images in figures/ can be referenced without the directory or extension.
+\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\floatname{algorithm}{算法}
+\algrenewcommand\algorithmicrequire{\textbf{输入：}}
+\algrenewcommand\algorithmicensure{\textbf{输出：}}
+\algrenewcommand\algorithmicreturn{\textbf{返回}}
+% Template convention: number headings through \subsubsection.
+\setcounter{secnumdepth}{3}
+
+\begin{document}
+
+\frontmatter
+
+\tableofcontents
+\input{chapters/00-abstract}
+\listoffigures
+\listoftables
+\input{chapters/00-notation}
+
+\mainmatter
+
+\include{chapters/01-introduction}
+\include{chapters/02-method}
+\include{chapters/03-results}
+\include{chapters/04-conclusion}
+
+\appendix
+\include{chapters/appendix-a}
+% Delete the next line if the college does not require an achievements section.
+\include{chapters/achievements}
+
+\backmatter
+
+\printbibliography
+\input{chapters/acknowledgements}
+
+% Do not put \includepdf here. fduthesis appends assets/declaration.pdf after
+% \end{document}, which guarantees that it remains the last page.
+\end{document}
+

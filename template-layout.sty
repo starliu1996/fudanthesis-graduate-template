@@ -1,0 +1,18 @@
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+\ProvidesPackage{template-layout}[2026/09/25 Graduate template example styles]
+% These figure/table choices follow the source thesis, not a university rule.
+% Keep fduthesis's existing caption fonts: figure small; table small + sf.
+\captionsetup[figure]{position=bottom}
+\captionsetup[table]{position=top}
+% Ordinary tables keep the body size; dense comparison tables use \small
+% explicitly, matching the two table treatments in the source thesis.
+% The source thesis places an unlettered note across the text width.
+% Group the formatting and terminate the paragraph before leaving the group.
+\NewDocumentCommand{\thesistablenote}{m}{%
+  \par\smallskip
+  \begingroup
+    \footnotesize\raggedright
+    \noindent 注：#1\par
+  \endgroup
+}
+\endinput
